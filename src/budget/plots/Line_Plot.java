@@ -149,7 +149,7 @@ public class Line_Plot extends JFrame {
 
 			@Override
 			public int getColumnCount() {
-				return 5;
+				return column_names.length;
 			}
 
 			@Override

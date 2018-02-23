@@ -24,7 +24,7 @@ public class Category_Table {
 		this.budget_database = budget_database;
 		categories = budget_database.getAllCategories();
 
-		Object[] column_names = { "Name", "Regex", "Goal", "Goal Count" };
+		Object[] column_names = { "Name", "Regex", "Goal" };
 
 		AbstractTableModel category_model = new AbstractTableModel() {
 
@@ -72,7 +72,7 @@ public class Category_Table {
 
 			@Override
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
-				return true;
+				return rowIndex > 2;
 			}
 
 			@Override
@@ -82,7 +82,7 @@ public class Category_Table {
 
 			@Override
 			public int getColumnCount() {
-				return 4;
+				return column_names.length;
 			}
 			
 			@Override
@@ -135,7 +135,7 @@ public class Category_Table {
 		category_creation_dialog.addStringField("Name: ", "");
 		category_creation_dialog.addNumericField("Goal", 0.0, 2, 10, "Currency");
 		category_creation_dialog.addStringField("Regex: ", "");
-		category_creation_dialog.addNumericField("Goal Frequency", 0, 0, 10, "Count");
+//		category_creation_dialog.addNumericField("Goal Frequency", 0, 0, 10, "Count");
 		category_creation_dialog.showDialog();
 		if (category_creation_dialog.wasCanceled())
 			return;
@@ -143,8 +143,9 @@ public class Category_Table {
 		String name = category_creation_dialog.getNextString();
 		float goal = (float) category_creation_dialog.getNextNumber();
 		String regex = category_creation_dialog.getNextString();
-		int goal_count = (int) category_creation_dialog.getNextNumber();
-		Category_Record new_category = new Category_Record(name, goal, regex, goal_count);
+		// TODO goal_count may come back but for now hide it 
+//		int goal_count = (int) category_creation_dialog.getNextNumber();
+		Category_Record new_category = new Category_Record(name, goal, regex, 0);
 		budget_database.addCategory(new_category);
 		categories.add(new_category);
 		((AbstractTableModel) category_table.getModel()).fireTableRowsInserted(categories.size(), categories.size());
