@@ -69,12 +69,11 @@ public class Transaction_Table {
 					else
 						selected_transactions.remove(transactions.get(row));
 				}
-
 			}
 
 			@Override
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
-				return columnIndex == column_names.length;
+				return columnIndex == column_names.length - 1;
 			}
 
 			@Override
@@ -84,7 +83,7 @@ public class Transaction_Table {
 
 			@Override
 			public int getColumnCount() {
-				return 6;
+				return column_names.length;
 			}
 			
 			@Override
