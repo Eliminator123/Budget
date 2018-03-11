@@ -12,7 +12,7 @@ public class Start {
 
 		String path_to_transactions_database = "Transactions.db";
 		if (args.length > 0)
-			path_to_transactions_database = args[1];
+			path_to_transactions_database = args[0];
 
 		File transactions_database_file = new File(path_to_transactions_database);
 		if (!transactions_database_file.exists()) {

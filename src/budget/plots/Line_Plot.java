@@ -38,15 +38,10 @@ import org.jfree.ui.RefineryUtilities;
 import budget.records.Category_Record;
 import budget.records.Transaction_Record;
 
-/**
- * A time series demo, with monthly data, where the tick unit on the axis is set
- * to one month also (this switches off the auto tick unit selection, and *can*
- * result in overlapping labels).
- */
 public class Line_Plot extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private List<Transaction_Record> transactions;
+	private final List<Transaction_Record> transactions;
 	private TimeSeriesCollection dataset = new TimeSeriesCollection();
 
 	public Line_Plot(List<Transaction_Record> transactions, JFrame owner) {
@@ -95,7 +90,7 @@ public class Line_Plot extends JFrame {
 
 		boolean average_by_month;
 		TimeSeries series_average_by_month;
-		
+
 		boolean average_by_day;
 		TimeSeries series_average_by_day;
 
@@ -216,10 +211,10 @@ public class Line_Plot extends JFrame {
 				}
 				case 3: {
 					plot.average_by_month = selected;
-					
+
 					long diff = transactions.get(transactions.size() - 1).deposited.getTime() - transactions.get(0).deposited.getTime();
-				    float months = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)/30.44f;
-					   
+					float months = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) / 30.44f;
+
 					if (selected) {
 						if (plot.category != null) {
 
@@ -234,7 +229,7 @@ public class Line_Plot extends JFrame {
 								totalValue += v.getValue().v;
 							}
 							for (Entry<RegularTimePeriod, summ> v : categoryRecordsMonth.entrySet()) {
-								plot.series_average_by_month.add(v.getKey(), totalValue/months);
+								plot.series_average_by_month.add(v.getKey(), totalValue / months);
 							}
 						} else {
 							plot.series_average_by_month = new TimeSeries("Average Total Spending By Month");
@@ -244,22 +239,22 @@ public class Line_Plot extends JFrame {
 								totalValue += v.getValue().v;
 							}
 							for (Entry<RegularTimePeriod, summ> v : categoryRecordsMonth.entrySet()) {
-								plot.series_average_by_month.add(v.getKey(), totalValue/months);
+								plot.series_average_by_month.add(v.getKey(), totalValue / months);
 							}
 						}
 						dataset.addSeries(plot.series_average_by_month);
 					} else if (plot.series_average_by_month != null) {
 						dataset.removeSeries(plot.series_average_by_month);
 					}
-					
+
 					break;
 				}
 				case 4: {
 					plot.average_by_day = selected;
-					
-				    long diff = transactions.get(transactions.size() - 1).deposited.getTime() - transactions.get(0).deposited.getTime();
-				    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-				  	   
+
+					long diff = transactions.get(transactions.size() - 1).deposited.getTime() - transactions.get(0).deposited.getTime();
+					long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
 					if (selected) {
 						if (plot.category != null) {
 
@@ -267,14 +262,14 @@ public class Line_Plot extends JFrame {
 							if (plot.name.equals("Pay"))
 								multiplier = 1;
 
-							plot.series_average_by_day = new TimeSeries("Average By Day " + plot.name);						   
-							HashMap<RegularTimePeriod, summ> categoryRecordsDay = getData(plot.category, multiplier, true);							
+							plot.series_average_by_day = new TimeSeries("Average By Day " + plot.name);
+							HashMap<RegularTimePeriod, summ> categoryRecordsDay = getData(plot.category, multiplier, true);
 							float totalValue = 0;
 							for (Entry<RegularTimePeriod, summ> v : categoryRecordsDay.entrySet()) {
-								totalValue += v.getValue().v;							
+								totalValue += v.getValue().v;
 							}
 							for (Entry<RegularTimePeriod, summ> v : categoryRecordsDay.entrySet()) {
-								plot.series_average_by_day.add(v.getKey(), totalValue/days);
+								plot.series_average_by_day.add(v.getKey(), totalValue / days);
 							}
 						} else {
 							plot.series_average_by_day = new TimeSeries("Average Total Spending By Day");
@@ -284,7 +279,7 @@ public class Line_Plot extends JFrame {
 								totalValue += v.getValue().v;
 							}
 							for (Entry<RegularTimePeriod, summ> v : totalSpendingRecordsDay.entrySet()) {
-								plot.series_average_by_day.add(v.getKey(), totalValue/days);
+								plot.series_average_by_day.add(v.getKey(), totalValue / days);
 							}
 						}
 						dataset.addSeries(plot.series_average_by_day);
@@ -353,7 +348,7 @@ public class Line_Plot extends JFrame {
 		for (Transaction_Record t : transactions) {
 			if (t.category.id == c.id) {
 				RegularTimePeriod time = day ? new Day(t.deposited) : new Month(t.deposited);
-			
+
 				summ s = records.get(time);
 				if (s != null)
 					s.v += t.amount * multiplier;

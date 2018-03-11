@@ -1,11 +1,19 @@
 package budget.records;
 
+import java.awt.Paint;
+
+import org.jfree.chart.plot.DefaultDrawingSupplier;
+import org.jfree.chart.plot.DrawingSupplier;
+
 public class Category_Record {
 	public String name;
 	public float goal;
 	public String regex;
 	public int goal_count;
 	public int id;
+	public final Paint color;
+	
+	private static DrawingSupplier supplier = new DefaultDrawingSupplier();
 
 	public Category_Record(String name, float goal, String regex, int goal_count) {
 		this(name, goal, regex, goal_count, -1);		
@@ -18,6 +26,7 @@ public class Category_Record {
 		this.regex = regex;
 		this.goal_count = goal_count;
 		this.id = id;
+		this.color = supplier.getNextPaint();
 	}
 
 	@Override
