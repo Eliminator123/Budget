@@ -13,6 +13,7 @@ import javax.swing.filechooser.FileFilter;
 
 import budget.Budget_Database;
 import budget.OFX_Reader;
+import budget.plots.Bar_Chart;
 import budget.plots.Line_Plot;
 import budget.plots.Pie_Chart_3D;
 import budget.records.Category_Record;
@@ -24,7 +25,7 @@ public class Budget_GUI extends JFrame implements ActionListener {
 	private final Transaction_Table transaction_table;
 
 	private enum Actions {
-		CREATE_CATEGORY, DELETE_CATEGORY, ASSIGN_CATEGORY, SEARCH_MATCHES, PLOT_PIE, PLOT_LINE, IMPORT
+		CREATE_CATEGORY, DELETE_CATEGORY, ASSIGN_CATEGORY, SEARCH_MATCHES, PLOT_PIE, PLOT_LINE, BAR_CHART, IMPORT
 	}
 
 	public Budget_GUI(Budget_Database budget_database) {
@@ -71,6 +72,12 @@ public class Budget_GUI extends JFrame implements ActionListener {
 		plot_line_button.addActionListener(this);
 		tool_bar.add(plot_line_button);
 
+		JButton bar_plot_button = new JButton("Bar Chart");
+		bar_plot_button.setActionCommand(Actions.BAR_CHART.name());
+		bar_plot_button.addActionListener(this);
+		tool_bar.add(bar_plot_button);
+		
+		
 		JButton import_button = new JButton("Import");
 		import_button.setActionCommand(Actions.IMPORT.name());
 		import_button.addActionListener(this);
@@ -103,6 +110,10 @@ public class Budget_GUI extends JFrame implements ActionListener {
 		}
 		case PLOT_PIE: {
 			new Pie_Chart_3D(transaction_table.getTransactions(), this);
+			break;
+		}
+		case BAR_CHART: {
+			new Bar_Chart(transaction_table.getTransactions(), this);
 			break;
 		}
 		case PLOT_LINE: {
